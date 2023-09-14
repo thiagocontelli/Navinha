@@ -1,22 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://bllhvx416tqxs"]
+[gd_scene load_steps=8 format=3 uid="uid://bllhvx416tqxs"]
 
 [ext_resource type="Script" path="res://scripts/space.gd" id="1_c2grp"]
 [ext_resource type="PackedScene" uid="uid://q5a4pemaoy03" path="res://scenes/player.tscn" id="2_u3ngf"]
 [ext_resource type="PackedScene" uid="uid://be86bhylg71aw" path="res://scenes/background.tscn" id="3_ag6uj"]
+[ext_resource type="PackedScene" uid="uid://d55wrdusivri" path="res://scenes/hud.tscn" id="4_ki5l4"]
+[ext_resource type="PackedScene" uid="uid://b43xndbuypguj" path="res://scenes/enemy.tscn" id="4_lpmp6"]
+[ext_resource type="PackedScene" uid="uid://47ba2gomce7" path="res://scenes/enemy_2.tscn" id="5_41wg3"]
+[ext_resource type="PackedScene" uid="uid://ddhbeb8tvaxcu" path="res://scenes/game_over_screen.tscn" id="5_1222w"]
 
 [node name="Space" type="Node2D"]
 script = ExtResource("1_c2grp")
+enemy_scenes = Array[PackedScene]([ExtResource("4_lpmp6"), ExtResource("5_41wg3")])
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("2_u3ngf")]
-position = Vector2(759, 998)
+[node name="UILayer" type="CanvasLayer" parent="."]
 
-[node name="Button" type="Button" parent="."]
-offset_left = 1841.0
-offset_top = 32.0
-offset_right = 1883.0
-offset_bottom = 63.0
-text = "Quit"
+[node name="HUD" parent="UILayer" instance=ExtResource("4_ki5l4")]
+
+[node name="GameOverScreen" parent="UILayer" instance=ExtResource("5_1222w")]
+visible = false
+
+[node name="Player" parent="." instance=ExtResource("2_u3ngf")]
+position = Vector2(960, 998)
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("3_ag6uj")]
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
