@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfst2jt3st6re"]
+
+[ext_resource type="PackedScene" uid="uid://be86bhylg71aw" path="res://scenes/background.tscn" id="2_ao7m7"]
+
+[sub_resource type="GDScript" id="GDScript_13vpg"]
+script/source = "extends Node2D
+
+func _on_quit_pressed():
+	get_tree().quit()
+
+
+func _on_play_pressed():
+	get_tree().change_scene_to_file(\"res://scenes/space.tscn\")
+"
+
+[node name="Main" type="Node2D"]
+script = SubResource("GDScript_13vpg")
+
+[node name="Play" type="Button" parent="."]
+offset_left = 783.0
+offset_top = 508.0
+offset_right = 1083.0
+offset_bottom = 558.0
+text = "Play"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 782.0
+offset_top = 622.0
+offset_right = 1082.0
+offset_bottom = 672.0
+text = "Quit"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 815.0
+offset_top = 352.0
+offset_right = 1073.0
+offset_bottom = 443.0
+theme_override_font_sizes/font_size = 64
+text = "Navinha"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_ao7m7")]
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
